@@ -66,10 +66,19 @@ lastsession() {
 check_uncommitted_dotfiles() {
   mod_dotfiles="$(dotf ls-files -m)"
   if [[ -n $mod_dotfiles ]]; then
-    echo -e " \e[1mYou have uncommitted dot files.\e[0m Run"
+    echo -e " \x1B[1mYou have uncommitted dot files.\x1B[0m Run"
     echo -n "dotf commit"
     for i in $mod_dotfiles; do
       echo -n " $i"
     done
+    echo
+  fi
+}
+
+check_unpushed_dotfiles() {
+  mod_dotfiles="$(dotf diff HEAD origin/master --name-only)"
+  if [[ -n $mod_dotfiles ]]; then
+    echo -e " \x1B[1mYou have locally committed dot files not yet pushed.\x1B[0m Run"
+    echo "dotf push"
   fi
 }
