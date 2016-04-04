@@ -1,0 +1,30 @@
+# copy on sapote overwrites .aliases on other systems during hourly sync, so edit sapotes copy
+
+alias dotf="git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME"
+
+alias vssh='vagrant ssh'
+
+alias dir='ls -Fl'
+alias m='more'
+alias l='locate'
+alias drt='ls -Flrt'
+alias cdp='cd -P'
+
+alias su='echo sudo -i;sudo -i'
+
+alias pd=pushd
+alias po=popd
+alias dirs='dirs -v'
+alias d=dirs
+alias r="pushd +1"
+
+if [[ -x /usr/local/bin/rlwrap  || -x ~/bin/rlwrap || -x /usr/bin/rlwrap ]]; then
+ dict=$HOME/.oracle/sql.dict
+ [ -d $HOME/.oracle ] || mkdir $HOME/.oracle
+ [ -f $dict ] || touch $dict
+ alias sqlplus='rlwrap -b "" -f $dict sqlplus'
+fi
+
+
+alias a="w -h | awk '{print \$1 \" \"  \$5 \" \" \$8}' | egrep -v '[[:digit:]]+[md]'"
+
