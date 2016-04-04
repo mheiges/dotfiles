@@ -8,6 +8,8 @@ fi
 
 if [ -f ~/.functions ]; then
   . ~/.functions
+  check_uncommitted_dotfiles
+  check_unpushed_dotfiles
 fi
 
 if [[ `uname` =~ 'Darwin' ]]; then
@@ -59,7 +61,6 @@ fi
 export HISTCONTROL='ignoreboth'
 export HISTFILESIZE=20000
 export HISTSIZE=20000
-
 
 
 # don't include OrthoMCL.org because on different code base
