@@ -86,3 +86,4 @@ check_unpushed_dotfiles() {
 check_unmerged_dotfiles() {
   dotf fetch
 }
+
