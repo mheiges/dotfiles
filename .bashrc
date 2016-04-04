@@ -1,5 +1,3 @@
-# .bashrc
-
 # Source global definitions
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
@@ -19,4 +17,8 @@ export PATH
 export PROJECT_HOME=/junk
 export GUS_HOME=/also/junk
 
-alias dotf='git --git-dir=/home/mheiges/.dotfiles.git/ --work-tree=/home/mheiges'
+if [ `hostname -s` = "holly" ]; then
+  if [ -f /eupath/workflow-software/etc/bashrc ]; then
+     . /eupath/workflow-software/etc/bashrc
+  fi
+fi
