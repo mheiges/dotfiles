@@ -61,3 +61,4 @@ lastsession() {
             from v\$session where username is not null \
             and username not in ('DBSNMP', 'SYSTEM');")
 }
+
