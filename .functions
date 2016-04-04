@@ -61,3 +61,15 @@ lastsession() {
             from v\$session where username is not null \
             and username not in ('DBSNMP', 'SYSTEM');")
 }
+
+
+check_uncommitted_dotfiles() {
+  mod_dotfiles="$(dotf ls-files -m)"
+  if [[ -n $mod_dotfiles ]]; then
+    echo -e " \e[1mYou have uncommitted dot files.\e[0m Run"
+    echo -n "dotf commit"
+    for i in $mod_dotfiles; do
+      echo -n " $i"
+    done
+  fi
+}

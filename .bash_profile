@@ -8,6 +8,7 @@ fi
 
 if [ -f ~/.functions ]; then
   . ~/.functions
+  check_uncommitted_dotfiles
 fi
 
 if [[ `uname` =~ 'Darwin' ]]; then
