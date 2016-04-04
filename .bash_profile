@@ -62,7 +62,6 @@ export HISTFILESIZE=20000
 export HISTSIZE=20000
 
 
-
 # don't include OrthoMCL.org because on different code base
 # don't include OrthoMCL.org because on different code base
 export SHAREDCODESITES="AmoebaDB.org CryptoDB.org EuPathDB.org FungiDB.org GiardiaDB.org HostDB.org MicrosporidiaDB.org PiroplasmaDB.org PlasmoDB.org SchistoDB.net ToxoDB.org TrichDB.org TriTrypDB.org"
