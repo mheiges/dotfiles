@@ -85,5 +85,6 @@ check_unpushed_dotfiles() {
 
 check_unmerged_dotfiles() {
   dotf fetch
+  dotf checkout | sed 's/Your branch is/Your dotfiles are/' | sed 's/git/dotf/'
 }
 
