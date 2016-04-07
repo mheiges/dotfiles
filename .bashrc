@@ -1,4 +1,7 @@
-# Source global definitions
+if [ -z "$PS1" ]; then
+  shopt -s expand_aliases
+fi
+
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
