@@ -76,8 +76,8 @@ fi
 # cpan needs this
 export FTP_PASSIVE=1
 
-if [ -f ~/.functions ]; then
-  check_uncommitted_dotfiles
-  check_unpushed_dotfiles
-  check_unmerged_dotfiles
-fi
+# if [ -f ~/.functions ]; then
+#   check_uncommitted_dotfiles
+#   check_unpushed_dotfiles
+#   check_unmerged_dotfiles
+# fi
