@@ -10,6 +10,10 @@ if [ -f ~/.functions ]; then
   . ~/.functions
 fi
 
+if [ -f ~/.git_bash_completion ]; then
+  . ~/.git_bash_completion
+fi
+
 if [[ `uname` =~ 'Darwin' ]]; then
 
   [[ -s "$HOME/.profile" ]] && source "$HOME/.profile"
