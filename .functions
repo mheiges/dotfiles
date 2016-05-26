@@ -88,3 +88,6 @@ check_unmerged_dotfiles() {
   dotf checkout | sed 's/Your branch is/Your dotfiles are/' | sed 's/git/dotf/'
 }
 
+ot() {
+  open -a Terminal "`pwd`"
+}
