@@ -24,3 +24,8 @@ if [ `hostname -s` = "holly" ]; then
      . /eupath/workflow-software/etc/bashrc
   fi
 fi
+
+if [ -d /Applications/iRODS.app ]; then
+  export PATH=/Applications/iRODS.app/Contents/PlugIns/irods/icommands:$PATH
+  export DYLD_LIBRARY_PATH=/Applications/iRODS.app/Contents/Frameworks:$DYLD_LIBRARY_PATH
+fi
