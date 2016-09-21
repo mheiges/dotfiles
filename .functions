@@ -88,6 +88,11 @@ check_unmerged_dotfiles() {
   dotf checkout | sed 's/Your branch is/Your dotfiles are/' | sed 's/git/dotf/'
 }
 
+# print file without #-delimited comments
+decomment() {
+  grep -v '^\W*#' $1 | egrep -v '^\W*$'
+}
+
 ot() {
   open -a Terminal "`pwd`"
 }
