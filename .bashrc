@@ -29,3 +29,6 @@ if [ -d /Applications/iRODS.app ]; then
   export PATH=/Applications/iRODS.app/Contents/PlugIns/irods/icommands:$PATH
   export DYLD_LIBRARY_PATH=/Applications/iRODS.app/Contents/Frameworks:$DYLD_LIBRARY_PATH
 fi
+
+
+export VAGRANT_DEFAULT_PROVIDER=virtualbox
