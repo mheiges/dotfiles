@@ -10,6 +10,9 @@ up() {
   cd $x;
 }
 
+diff_brief() {
+  /usr/bin/diff --brief -r "$1" "$2" | sed 's/^Files /diff /' | sed 's/ and / /' | sed 's/ differ$//'
+}
 
 diff_eversions() {
   echo diff holly consign
