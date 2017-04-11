@@ -71,11 +71,10 @@ export HISTFILESIZE=20000
 export HISTSIZE=20000
 
 
-# don't include OrthoMCL.org because on different code base
-# don't include OrthoMCL.org because on different code base
+# don't include OrthoMCL.org, microbiome because on different code base
 export SHAREDCODESITES="AmoebaDB.org CryptoDB.org EuPathDB.org FungiDB.org GiardiaDB.org HostDB.org MicrosporidiaDB.org PiroplasmaDB.org PlasmoDB.org SchistoDB.net ToxoDB.org TrichDB.org TriTrypDB.org"
-export ALLSITES="AmoebaDB.org CryptoDB.org GiardiaDB.org EuPathDB.org FungiDB.org HostDB.org MicrosporidiaDB.org OrthoMCL.org PiroplasmaDB.org PlasmoDB.org SchistoDB.net ToxoDB.org TrichDB.org TriTrypDB.org"
-export ALLPROJECTS="AmoebaDB CryptoDB GiardiaDB EuPathDB FungiDB HostDB MicrosporidiaDB OrthoMCL PiroplasmaDB PlasmoDB SchistoDB ToxoDB TrichDB TriTrypDB"
+export ALLSITES="AmoebaDB.org CryptoDB.org GiardiaDB.org EuPathDB.org FungiDB.org HostDB.org MicrobiomeDB.org MicrosporidiaDB.org OrthoMCL.org PiroplasmaDB.org PlasmoDB.org SchistoDB.net ToxoDB.org TrichDB.org TriTrypDB.org"
+export ALLPROJECTS="AmoebaDB CryptoDB GiardiaDB EuPathDB FungiDB HostDB MicrobiomeDB MicrosporidiaDB OrthoMCL PiroplasmaDB PlasmoDB SchistoDB ToxoDB TrichDB TriTrypDB"
 
 
 if `shopt -p | grep -q direxpand`; then
@@ -91,3 +90,5 @@ export FTP_PASSIVE=1
 #   check_unpushed_dotfiles
 #   check_unmerged_dotfiles
 # fi
+
+
