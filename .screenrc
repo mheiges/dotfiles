@@ -1,0 +1,7 @@
+vbell on
+startup_message off
+shelltitle "@|"
+hardstatus alwayslastline '%-Lw%{= BW}%50>%n%f* %t%{-}%+Lw%<'
+
+bind b eval "writebuf" "exec sh -c 'pbcopy < /tmp/screen-exchange'"
+
