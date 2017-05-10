@@ -1,3 +1,4 @@
+export SHELL_HAS_READ_BASHRC=1
 if [ -z "$PS1" ]; then
   shopt -s expand_aliases
 fi

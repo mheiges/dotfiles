@@ -1,3 +1,4 @@
+export SHELL_HAS_READ_PROFILE=1
 if [ -f ~/.bashrc ]; then
 	. ~/.bashrc
 fi
