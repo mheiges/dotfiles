@@ -65,6 +65,11 @@ lastsession() {
             and username not in ('DBSNMP', 'SYSTEM');")
 }
 
+# manage dot files;
+# based on https://news.ycombinator.com/item?id=11071754
+dotf() {
+  git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME "$@"
+}
 
 check_uncommitted_dotfiles() {
   mod_dotfiles="$(dotf ls-files -m)"

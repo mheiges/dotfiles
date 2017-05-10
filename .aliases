@@ -1,7 +1,5 @@
 # copy on sapote overwrites .aliases on other systems during hourly sync, so edit sapotes copy
 
-alias dotf="git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME"
-
 alias vssh='vagrant ssh'
 
 alias dir='ls -Fl'
