@@ -91,4 +91,4 @@ export FTP_PASSIVE=1
 #   check_unmerged_dotfiles
 # fi
 
-
+export SQLPATH=~/.oracle
