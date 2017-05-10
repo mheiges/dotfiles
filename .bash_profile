@@ -3,14 +3,6 @@ if [ -f ~/.bashrc ]; then
 	. ~/.bashrc
 fi
 
-if [ -f ~/.aliases ]; then
-  . ~/.aliases
-fi
-
-if [ -f ~/.functions ]; then
-  . ~/.functions
-fi
-
 if [ -f ~/.git_bash_completion ]; then
   . ~/.git_bash_completion
 fi

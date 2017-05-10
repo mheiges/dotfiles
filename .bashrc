@@ -11,6 +11,10 @@ if [ -f ~/.aliases ]; then
   . ~/.aliases
 fi
 
+if [ -f ~/.functions ]; then
+  . ~/.functions
+fi
+
 PATH=$HOME/bin:$PATH
 if [ -d $HOME/.rvm ]; then
   PATH=$PATH:$HOME/.rvm/bin
