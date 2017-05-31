@@ -70,10 +70,10 @@ export ALLSITES="AmoebaDB.org CryptoDB.org GiardiaDB.org EuPathDB.org FungiDB.or
 export ALLPROJECTS="AmoebaDB CryptoDB GiardiaDB EuPathDB FungiDB HostDB MicrobiomeDB MicrosporidiaDB OrthoMCL PiroplasmaDB PlasmoDB SchistoDB ToxoDB TrichDB TriTrypDB"
 
 
-if `shopt -p | grep -q direxpand`; then
-  # http://stackoverflow.com/questions/6418493/bash-variable-expansion-on-tab-complete
-  shopt -s direxpand
-fi
+#if `shopt -p | grep -q direxpand`; then
+#  # http://stackoverflow.com/questions/6418493/bash-variable-expansion-on-tab-complete
+#  shopt -s direxpand
+#fi
 
 # cpan needs this
 export FTP_PASSIVE=1
