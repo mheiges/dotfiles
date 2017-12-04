@@ -21,9 +21,6 @@ if [ -d $HOME/.rvm ]; then
 fi
 export PATH
 
-export PROJECT_HOME=/junk
-export GUS_HOME=/also/junk
-
 if [ `hostname -s` = "elm" ]; then
   if [ -f /eupath/workflow-software/etc/bashrc ]; then
      . /eupath/workflow-software/etc/bashrc
