@@ -104,3 +104,16 @@ decomment() {
 ot() {
   open -a Terminal "`pwd`"
 }
+
+
+function nginxerrbyip () {
+  # grep Nginx logs for errors for given IP address, optional
+  # date timestamp
+  IP=$1
+  DATE=$2
+  find /var/log/nginx/ -maxdepth 2 -name access_log 2> >(grep -v 'Permission denied' >&2) | \
+    xargs ack ${IP} | \
+    egrep ' 500 | 404 ' | \
+    grep "${DATE}"
+}
+
