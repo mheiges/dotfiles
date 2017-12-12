@@ -117,3 +117,13 @@ function nginxerrbyip () {
     grep "${DATE}"
 }
 
+function nginxbyip () {
+  # grep Nginx logs for given IP address, optional
+  # date timestamp
+  IP=$1
+  DATE=$2
+  find /var/log/nginx/ -maxdepth 2 -name access_log 2> >(grep -v 'Permission denied' >&2) | \
+    xargs ack ${IP} | \
+    grep "${DATE}"
+}
+
