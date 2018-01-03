@@ -32,5 +32,8 @@ if [ -d /Applications/iRODS.app ]; then
   export DYLD_LIBRARY_PATH=/Applications/iRODS.app/Contents/Frameworks:$DYLD_LIBRARY_PATH
 fi
 
+if [ -d ~/Library/Python/2.7/bin ]; then
+  export PATH=~/Library/Python/2.7/bin/:$PATH
+fi
 
 export VAGRANT_DEFAULT_PROVIDER=virtualbox
