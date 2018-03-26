@@ -36,4 +36,9 @@ if [ -d ~/Library/Python/2.7/bin ]; then
   export PATH=~/Library/Python/2.7/bin/:$PATH
 fi
 
-export VAGRANT_DEFAULT_PROVIDER=virtualbox
+if [[ `uname` =~ 'Darwin' ]]; then
+  export VAGRANT_DEFAULT_PROVIDER=virtualbox
+
+  # https://github.com/ansible/ansible/issues/31869
+  export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+fi
