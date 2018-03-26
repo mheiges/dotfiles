@@ -20,13 +20,13 @@ if [[ `uname` =~ 'Darwin' ]]; then
   #
   # eval not needed if gpg-agent managed by GPGTools
   # eval $(gpg-agent --daemon)
-  GPG_TTY=$(tty)
-  export GPG_TTY
-  if [ -f "${HOME}/.gpg-agent-info" ]; then
-      . "${HOME}/.gpg-agent-info"
-      export GPG_AGENT_INFO
-      export SSH_AUTH_SOCK
-  fi
+#   GPG_TTY=$(tty)
+#   export GPG_TTY
+#   if [ -f "${HOME}/.gpg-agent-info" ]; then
+#       . "${HOME}/.gpg-agent-info"
+#       export GPG_AGENT_INFO
+#       export SSH_AUTH_SOCK
+#   fi
 
   ifconfig() {
       netloc=$(/usr/sbin/scselect 2>&1 | egrep '^ \* ' |  sed 's:.*(\(.*\)):\1:')
