@@ -14,14 +14,6 @@ diff_brief() {
   /usr/bin/diff --brief -r "$1" "$2" | sed 's/^Files /diff /' | sed 's/ and / /' | sed 's/ differ$//'
 }
 
-diff_eversions() {
-  echo diff holly consign
-  diff <(ssh holly.pcbi.upenn.edu eversions) <(ssh consign eversions)
-  echo diff zcluster consign
-  diff <(ssh zcluster.rcc.uga.edu eversions) <(ssh consign eversions)
-}
-
-
 qapwd() { 
     if [[ -z "$1" ]]; then echo 'usage: qapwd trichqa';  return; fi
     ldapsearch -LLL -x -H ldaps://ds3.apidb.org \
@@ -36,22 +28,6 @@ qapwd() {
       | sed 's/{CLEAR}//' 
 }
 
-diff_ldap_tns() {
-  echo diff ds1 ds4
-  diff <(ldapsearch -LLL -x -H ldaps://ds1.apidb.org -b "cn=OracleContext,ou=applications,dc=apidb,dc=org" -S cn 'orclNetDescString' 'cn' | perl -p0e 's/\n //g') <(ldapsearch -LLL -x -H ldaps://ds1.apidb.org -b "cn=OracleContext,ou=applications,dc=apidb,dc=org" -S cn 'orclNetDescString' 'cn' | perl -p0e 's/\n //g')
-}
-
-diff_ldap_people() {
-  if [[ -z "$1" ]]; then echo 'usage: diff_ldap_people password';  return; fi
-  pw=$1
-  echo diff ds1 ds4
-  diff <(ldapsearch  -LLL -x -H ldaps://ds1.apidb.org -D "uid=mheiges,ou=People,dc=apidb,dc=org" -w $pw -b 'ou=People,dc=apidb,dc=org' -S cn 'cn' 'userPassword' 'mail') <(ldapsearch  -LLL -x -H ldaps://ds4.apidb.org -D "uid=mheiges,ou=People,dc=apidb,dc=org" -w $pw -b 'ou=People,dc=apidb,dc=org' -S cn 'cn' 'userPassword' 'mail')
-}
-
-diff_ldap_orclsrv() {
-  echo diff ds1 ds4
-  diff <(ldapsearch -LLL -x -H ldaps://ds1.apidb.org -b "cn=OracleLsnrctlServices,ou=applications,dc=apidb,dc=org" -S cn 'orclNetServiceName' 'cn' | perl -p0e 's/\n //g') <(ldapsearch -LLL -x -H ldaps://ds1.apidb.org -b "cn=OracleLsnrctlServices,ou=applications,dc=apidb,dc=org" -S cn 'orclNetServiceName' 'cn' | perl -p0e 's/\n //g')
-}
 
 lastsession() { 
   if [[ -z "$1" ]]; then echo 'usage: lastsession password instancename';  return; fi
