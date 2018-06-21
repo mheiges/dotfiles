@@ -21,11 +21,6 @@ if [ -d $HOME/.rvm ]; then
 fi
 export PATH
 
-if [ `hostname -s` = "elm" ]; then
-  if [ -f /eupath/workflow-software/etc/bashrc ]; then
-     . /eupath/workflow-software/etc/bashrc
-  fi
-fi
 
 if [ -d /Applications/iRODS.app ]; then
   export PATH=/Applications/iRODS.app/Contents/PlugIns/irods/icommands:$PATH
