@@ -1,0 +1,4 @@
+"\033[1;5C": forward-word       # ctrl+right_arrow == forward one word
+"\033[1;5D": backward-word      # ctrl+left_arrow == backward one word
+"\e\e[C": forward-word      # esc+right_arrow == forward one word
+"\e\e[D": backward-word     # esc+left_arrow == backward one word
