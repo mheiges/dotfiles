@@ -103,3 +103,40 @@ function nginxbyip () {
     grep "${DATE}"
 }
 
+function packerssh() {
+  if [[ ! $2 =~ ^[0-9]+$ ]]; then
+    echo "SSH to in-flight Packer build. Usage: packerssh <user> <port>"
+    echo "where <port> can be found in Packer stdout line:"
+    echo "Creating forwarded port mapping for communicator (SSH, WinRM, etc) (host port 4355)"
+    return 1
+  fi
+  cmd="ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no \
+     -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+     $1@localhost -p $2"
+  echo $cmd
+  $cmd
+}
+
+# mimic GNU md5sum. Extra space is injected between hash and filename to
+# match GNU's text mode output (vs. binary mode indicated with a '*' in
+# the second position)
+function md5sum() {
+  md5 -r "$@" | sed 's/ /  /'
+}; alias md5=md5sum
+
+### CLEARLEAP ####
+# https://wiki.clearleap.com/display/DevOps/AWS+SSH+Helper
+function aws-default {
+  export AWS_DEFAULT_PROFILE=$1
+}
+function ssh-aws {
+  ssh -i ~/.ssh/aws_id_rsa admin@`aws-ip $1`
+}
+function aws-ip {
+  aws ec2 describe-instances --output text --max-items 1 --filters "Name=tag:Name,Values=$1*" "Name=instance-state-name,Values=running" --query 'Reservations[*].Instances[*].PrivateIpAddress'
+}
+function aws-ip-all {
+   aws ec2 describe-instances --filters "Name=tag:Name,Values=$1*" "Name=instance-state-name,Values=running" --query 'Reservations[*].Instances[*].[PrivateIpAddress,Tags[?Key==`Name`].Value[]]' --output text
+}
+
+### END CLEARLEAP ###
