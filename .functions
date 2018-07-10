@@ -124,6 +124,33 @@ function md5sum() {
   md5 -r "$@" | sed 's/ /  /'
 }; alias md5=md5sum
 
+# iTerm2 cd to selected dir (or parent dir if selected file).
+# Configure iTerm:
+#     Preferences -> Keys -> Key Mappings
+#       Paste from selection
+#         Replace selection: ^(~[^\/]*\/)?(.*)$
+#         With: iterm_cd_to_selected_dir "$1" $2\r
+#
+# Note not quoting $2 so spaces and escaped spaces are handled.
+#
+# Splitting path allows for tilde expansion by shell.
+#  ~mheiges/"Vagrant"
+#  ~/"Vagrant"
+#  "/Users/mheiges/Vagrant"
+#
+# cd $1"$2" && pwd\r
+function iterm_cd_to_selected_dir() {
+  local prefix="$1"
+  shift
+  local suffix="$@"
+  local path="${prefix}${suffix}"
+  if [[ -f "$path" ]]; then
+    cd "$(dirname "$path")" && pwd
+  else
+    cd "$path" && pwd
+  fi
+}
+
 ### CLEARLEAP ####
 # https://wiki.clearleap.com/display/DevOps/AWS+SSH+Helper
 function aws-default {
