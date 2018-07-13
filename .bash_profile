@@ -3,9 +3,15 @@ if [ -f ~/.bashrc ]; then
 	. ~/.bashrc
 fi
 
-if [ -f ~/.git_bash_completion ]; then
-  . ~/.git_bash_completion
-fi
+for i in ~/.bash-completions/*.sh ; do
+  if [ -r "$i" ]; then
+    if [ "${-#*i}" != "$-" ]; then
+      . "$i"
+    else
+      . "$i" >/dev/null
+    fi
+  fi
+done
 
 if [[ `uname` =~ 'Darwin' ]]; then
 
@@ -36,18 +42,8 @@ if [[ `uname` =~ 'Darwin' ]]; then
       echo
   }
 
-  if [ -f ~/.vagrant_tabcomplete ]; then
-    . ~/.vagrant_tabcomplete
-  fi
-
 fi
 
-# Docker bash completion
-if [ -d /Applications/Docker.app/Contents/Resources ]; then
- . /Applications/Docker.app/Contents/Resources/etc/docker.bash-completion
- . /Applications/Docker.app/Contents/Resources/etc/docker-machine.bash-completion
- . /Applications/Docker.app/Contents/Resources/etc/docker-compose.bash-completion
-fi
 
 export FIGNORE=.svn:.git
 export EDITOR=vim
