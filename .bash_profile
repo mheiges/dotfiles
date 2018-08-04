@@ -18,6 +18,7 @@ if [[ `uname` =~ 'Darwin' ]]; then
   [[ -s "$HOME/.profile" ]] && source "$HOME/.profile"
   [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
   export PATH=/opt/packer:$PATH
+  export PATH=/opt/terraform:$PATH
   export PATH=/opt/local/bin:/opt/local/sbin:/Volumes/korlan/opt/local/bin:/Volumes/korlan/opt/local/sbin:$PATH
   export PATH=$PATH:'/Library/Application Support/VMware Fusion'
 
