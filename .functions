@@ -151,6 +151,38 @@ function iterm_cd_to_selected_dir() {
   fi
 }
 
+# print modulus checksums for SSL certs, keys, CSR
+# (for confirming cert and key matching)
+function ssl-pki-chk {
+  for f in "$@"; do
+    ext="${f##*.}"
+    case $ext in
+      'csr')
+        type=req
+        ;;
+      'cer'|'crt')
+        type=x509
+        ;;
+      'key')
+        type=rsa
+        ;;
+      *)
+        echo "Don't know about file extension for $f"
+        continue
+        ;;
+    esac
+    mod=$(openssl $type  -noout -modulus -in "$f" 2>/dev/null)
+    if [[ $? -eq 0 ]]; then
+      md5="$(echo $mod | openssl md5 | sed 's/(stdin)= //')"
+      echo "$md5 $(basename "$f")"
+    else
+      echo "ERROR on $(basename "$f")"
+    fi
+  done
+}
+
+
+
 ### CLEARLEAP ####
 # https://wiki.clearleap.com/display/DevOps/AWS+SSH+Helper
 function aws-default {
@@ -165,5 +197,57 @@ function aws-ip {
 function aws-ip-all {
    aws ec2 describe-instances --filters "Name=tag:Name,Values=$1*" "Name=instance-state-name,Values=running" --query 'Reservations[*].Instances[*].[PrivateIpAddress,Tags[?Key==`Name`].Value[]]' --output text
 }
+
+# from Paul Travis (pers. Slack) (customized with some personal error handling)
+function aws_search_name() {
+  if [ -z $1 ]; then
+    echo -e "Usage:\n  aws_search_name Name\n    where Name value matches EC2 instances Name tags"
+  else
+    aws ec2 describe-instances --output text | grep "^TAGS\s*Name.*$1" | awk '{print $3}' | sort |   uniq
+  fi
+}
+function aws_ip_of() {
+    IPS=$(aws ec2 describe-instances --output text --filters "Name=tag:Name,Values=$1*"              "Name=instance-state-name,Values=running" --query 'Reservations[*].Instances[*].PrivateIpAddress' |  tr '\n' ' ')
+    NUM=$(echo $IPS | wc -w | tr -d '[[:space:]]')
+    AS='{print $1}'
+    if [ $NUM -ne 1 ]; then
+        (>&2 echo "WARNING: Found $NUM instances with similar name: $IPS")
+        if [ ! -z "$2" ] && [ "$NUM" -ge "$2" ]; then
+            AS="{print \$$2}"
+        fi
+    fi
+    echo $IPS | awk "$AS"
+}
+function ssh-aws() {
+  #ptravis: ssh -i ~/.ssh/aws_id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -q admin@`aws_ip_of $@`
+  #mheiges: (opts pushed to ~/.ssh/config)
+  ssh admin@`aws_ip_of $@`
+}
+
+# rsync puppet code from workstation to EC2, then fswatch workstation code and
+# rsync changes. (This is not actually limited to puppet code.)
+function pupsit() {
+  usage="Usage: $(tput bold)pupsit <dir to watch> <remote dest dir> <dest host>$(tput sgr0)"
+  [ $# -eq 0 ] && { echo "Run fswatch on given directory. $usage"; return; }
+  local watchdir="$1"
+  local destdir="$2"
+  local desthost="$3"
+  [ -z "$destdir" ] && { echo "dest dir not set. $usage"; return; }
+  [ -d "$watchdir" ] || { echo "local directory not found. $usage"; return; }
+  nc  -z -G1  "$desthost" 22 >/dev/null || { echo "port 22 not open on '$desthost'. $usage"; return; }
+  run_rsync="rsync -avzP --delete --exclude=.git  $watchdir/ admin@$desthost:$destdir";
+  echo "$(tput bold)$(tput setaf 2)initial rsync starting...$(tput sgr0)"
+  $run_rsync && {
+    echo -e "$(tput bold)$(tput setaf 2)\n--------\ninitial rsync finished\n"
+    echo -e "now watching $(tput sgr0)'$watchdir'$(tput bold)$(tput setaf 2)...."
+    echo -e "and pushing to $(tput sgr0)'$desthost@$destdir'$(tput bold)$(tput setaf 2)...."
+    echo -e "$(tput bold)$(tput setaf 2)\n---------\n$(tput sgr0)$(tput setaf 4)"
+    fswatch -o "$watchdir" | \
+    while read f; do
+      $run_rsync
+    done
+  }
+}
+
 
 ### END CLEARLEAP ###
