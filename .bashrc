@@ -37,3 +37,8 @@ if [[ `uname` =~ 'Darwin' ]]; then
   # https://github.com/ansible/ansible/issues/31869
   export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 fi
+
+
+if [ -f /usr/local/Cellar/openvpn/2.4.6/sbin/openvpn ]; then
+  export PATH=/usr/local/Cellar/openvpn/2.4.6/sbin:$PATH
+fi
