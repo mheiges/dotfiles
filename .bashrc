@@ -42,3 +42,5 @@ fi
 if [ -f /usr/local/Cellar/openvpn/2.4.6/sbin/openvpn ]; then
   export PATH=/usr/local/Cellar/openvpn/2.4.6/sbin:$PATH
 fi
+
+export HISTTIMEFORMAT="%Y%m%d %T "
