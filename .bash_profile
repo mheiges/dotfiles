@@ -45,6 +45,9 @@ if [[ `uname` =~ 'Darwin' ]]; then
 
 fi
 
+if command -v rbenv >/dev/null 2>&1; then
+  eval "$(rbenv init -)"
+fi
 
 export FIGNORE=.svn:.git
 export EDITOR=vim
