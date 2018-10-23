@@ -85,3 +85,11 @@ export FTP_PASSIVE=1
 # fi
 
 export SQLPATH=~/.oracle
+
+# rubyenv init
+# https://github.com/rbenv/rbenv
+if [ -x "$(command -v rbenv)" ]; then
+  eval "$(rbenv init -)"
+fi
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"

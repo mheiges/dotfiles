@@ -26,3 +26,5 @@ fi
 
 alias a="w -h | awk '{print \$1 \" \"  \$5 \" \" \$8}' | egrep -v '[[:digit:]]+[md]'"
 
+# IBM/Clearleap
+alias cfd="bundle exec cf_deploy"
