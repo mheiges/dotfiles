@@ -235,7 +235,7 @@ function pupsit() {
   [ -z "$destdir" ] && { echo "dest dir not set. $usage"; return; }
   [ -d "$watchdir" ] || { echo "local directory not found. $usage"; return; }
   nc  -z -G1  "$desthost" 22 >/dev/null || { echo "port 22 not open on '$desthost'. $usage"; return; }
-  run_rsync="rsync -avzP --delete --exclude=.git  $watchdir/ admin@$desthost:$destdir";
+  run_rsync="rsync -avzP --delete --exclude=.git --exclude hiera/launchconfig.yml --exclude hiera/golden_image.yaml  $watchdir/ admin@$desthost:$destdir";
   echo "$(tput bold)$(tput setaf 2)initial rsync starting...$(tput sgr0)"
   $run_rsync && {
     echo -e "$(tput bold)$(tput setaf 2)\n--------\ninitial rsync finished\n"
