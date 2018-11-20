@@ -160,7 +160,7 @@ function ssl-pki-chk {
       'csr')
         type=req
         ;;
-      'cer'|'crt')
+      'cer'|'crt'|'pem')
         type=x509
         ;;
       'key')
@@ -188,6 +188,23 @@ function ssl-pki-chk {
 function aws-default {
   export AWS_DEFAULT_PROFILE=$1
 }
+
+function hbon-apex {
+  region=$1
+  aws ec2 describe-instances \
+    --region $region \
+    --profile sysops \
+    --filters "Name=ip-address,Values=$(dig +short hbonordic.com | paste -sd ',' -)" | \
+      jq -r .Reservations[].Instances[].PrivateIpAddress
+}
+
+function hbon-apex-west {
+  hbon-apex eu-west-1
+}
+function hbon-apex-east {
+  hbon-apex us-east-1
+}
+
 function ssh-aws {
   ssh -i ~/.ssh/aws_id_rsa admin@`aws-ip $1`
 }
@@ -199,15 +216,15 @@ function aws-ip-all {
 }
 
 # from Paul Travis (pers. Slack) (customized with some personal error handling)
-function aws_search_name() {
+function aws-search-name() {
   if [ -z $1 ]; then
-    echo -e "Usage:\n  aws_search_name Name\n    where Name value matches EC2 instances Name tags"
+    echo -e "Usage:\n  aws-search-name Name\n    where Name value matches EC2 instances Name tags"
   else
     aws ec2 describe-instances --output text | grep "^TAGS\s*Name.*$1" | awk '{print $3}' | sort |   uniq
   fi
 }
-function aws_ip_of() {
-    IPS=$(aws ec2 describe-instances --output text --filters "Name=tag:Name,Values=$1*"              "Name=instance-state-name,Values=running" --query 'Reservations[*].Instances[*].PrivateIpAddress' |  tr '\n' ' ')
+function aws-ip-of() {
+    IPS=$(aws ec2 describe-instances --output text --filters "Name=tag:Name,Values=$1*" "Name=instance-state-name,Values=running" --query 'Reservations[*].Instances[*].PrivateIpAddress' |  tr '\n' ' ')
     NUM=$(echo $IPS | wc -w | tr -d '[[:space:]]')
     AS='{print $1}'
     if [ $NUM -ne 1 ]; then
@@ -219,9 +236,9 @@ function aws_ip_of() {
     echo $IPS | awk "$AS"
 }
 function ssh-aws() {
-  #ptravis: ssh -i ~/.ssh/aws_id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -q admin@`aws_ip_of $@`
+  #ptravis: ssh -i ~/.ssh/aws_id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -q admin@`aws-ip-of $@`
   #mheiges: (opts pushed to ~/.ssh/config)
-  ssh admin@`aws_ip_of $@`
+  ssh admin@`aws-ip-of $@`
 }
 
 # rsync puppet code from workstation to EC2, then fswatch workstation code and
