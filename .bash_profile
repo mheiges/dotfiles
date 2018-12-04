@@ -92,4 +92,10 @@ if [ -x "$(command -v rbenv)" ]; then
   eval "$(rbenv init -)"
 fi
 
+# pyenv init
+# https://github.com/pyenv/pyenv
+if [ -x "$(command -v pyenv)" ]; then
+  eval "$(pyenv init -)"
+fi
+
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
