@@ -266,5 +266,94 @@ function pupsit() {
   }
 }
 
+function aws_ip_list() {
+  profile=$1
+  tag_prefix=$2
+  aws ec2 --profile $profile \
+    describe-instances \
+    --filters "Name=tag:Name,Values=${tag_prefix}*" | \
+    jq -r  '[.Reservations[].Instances[].PrivateIpAddress] | @tsv'
+}
 
+function cp_pre_cloffice_hbo() {
+  aws_ip_list sysops-eu cp-pre-cloffice-
+}
+function cp_pre_clofficeui_hbo() {
+  aws_ip_list sysops-eu cp-pre-clofficeui-
+}
+function cp_pre_cloffice_hbo() {
+  aws_ip_list sysops-eu cp-pre-cloffice-
+}
+function cp_pre_cloffice_hbo() {
+  aws_ip_list sysops-eu cp-pre-cloffice-
+}
+function cp_pre_clofficeui_hbo() {
+  aws_ip_list sysops-eu cp-pre-clofficeui-
+}
+function cp_integ_cloffice_hbo() {
+  aws_ip_list clearleap cp-integ-cloffice-
+}
+function cp_integ_clofficeui_hbo() {
+  aws_ip_list clearleap cp-integ-clofficeui-
+}
+
+# list IPs behind load balancer
+lb() {
+  for i in `aws --profile $1 elb describe-load-balancers | \
+    jq -r ".LoadBalancerDescriptions[] | \
+    select(.LoadBalancerName | match (\"$2\"; \"i\")) | .Instances[].InstanceId"`; do
+      aws ec2 --profile $1 describe-instances --instance-ids $i | jq \
+        -r .Reservations[].Instances[].PrivateIpAddress; \
+  done; \
+};
 ### END CLEARLEAP ###
+
+
+# open iTerm tabs and ssh to list of IPs
+#   sshtabs 10.98.31.102 10.98.32.34
+function sshtabs() {
+  iterm_profile_name="$1"; shift
+  iplist=("$@")
+  osascript <<EOF
+    tell application "iTerm"
+      set iplist to {$(printf '"%s",' ${iplist[@]} | cut -d "," -f 1-${#iplist[@]})}
+      set ps1_prompt to "PS1=\"\\\n[\\\\\$(date +'%H:%M %Y%m%d') \\\[\\\033[m\\\]\\\[\\\e[0;32m\\\]\$(aws ec2 describe-tags --filters \"Name=resource-id,Values=\$(ec2metadata --instance-id)\" \"Name=key,Values=Name\" --region=\$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | grep region | awk -F\\\\\" '{print \$4}') --output=text | cut -f5)\\\[\\\e[0m\\\] \\\u@\$(hostname -I|cut -d' ' -f1|tr -d ' ') \\\w]\\\n\$ \""
+      create window with profile "$iterm_profile_name"
+      set theIp to item 1 of iplist
+      tell first window
+        tell current session
+          write text "ssh " & theIp
+          write text ps1_prompt
+          write text "clear"
+        end tell
+      end tell
+  
+      if count of iplist > 1 then
+        repeat with theIp in items 2 thru -1 of iplist
+          tell first window
+            create tab with profile "$iterm_profile_name"
+            tell current session
+              write text "ssh " & theIp
+              write text ps1_prompt
+              write text "clear"
+            end tell
+          end tell
+        end repeat
+      end if
+      tell first tab of current window
+        select
+      end tell
+    end tell
+EOF
+}
+function sshpreprod() {
+  sshtabs preprod "$@"
+}
+function sshprod() {
+  sshtabs prod "$@"
+}
+function sshinteg() {
+  sshtabs integ "$@"
+}
+
+
