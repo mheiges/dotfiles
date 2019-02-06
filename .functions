@@ -252,7 +252,7 @@ function pupsit() {
   [ -z "$destdir" ] && { echo "dest dir not set. $usage"; return; }
   [ -d "$watchdir" ] || { echo "local directory not found. $usage"; return; }
   nc  -z -G1  "$desthost" 22 >/dev/null || { echo "port 22 not open on '$desthost'. $usage"; return; }
-  run_rsync="rsync -avzP --delete --exclude=.git --exclude hiera/launchconfig.yml --exclude hiera/golden_image.yaml  $watchdir/ admin@$desthost:$destdir";
+  run_rsync="rsync -avzP --delete --exclude=.git --exclude hiera/launchconfig.yaml --exclude hiera/golden_image.yaml  $watchdir/ admin@$desthost:$destdir";
   echo "$(tput bold)$(tput setaf 2)initial rsync starting...$(tput sgr0)"
   $run_rsync && {
     echo -e "$(tput bold)$(tput setaf 2)\n--------\ninitial rsync finished\n"
@@ -281,11 +281,11 @@ function cp_pre_cloffice_hbo() {
 function cp_pre_clofficeui_hbo() {
   aws_ip_list sysops-eu cp-pre-clofficeui-
 }
-function cp_pre_cloffice_hbo() {
-  aws_ip_list sysops-eu cp-pre-cloffice-
+function cp_prod_cloffice_hbo() {
+  aws_ip_list sysops-eu cp-prod-cloffice-
 }
-function cp_pre_cloffice_hbo() {
-  aws_ip_list sysops-eu cp-pre-cloffice-
+function cp_prod_clofficeui_hbo() {
+  aws_ip_list sysops-eu cp-pre-clofficeui-
 }
 function cp_pre_clofficeui_hbo() {
   aws_ip_list sysops-eu cp-pre-clofficeui-
@@ -317,7 +317,7 @@ function sshtabs() {
   osascript <<EOF
     tell application "iTerm"
       set iplist to {$(printf '"%s",' ${iplist[@]} | cut -d "," -f 1-${#iplist[@]})}
-      set ps1_prompt to "PS1=\"\\\n[\\\\\$(date +'%H:%M %Y%m%d') \\\[\\\033[m\\\]\\\[\\\e[0;32m\\\]\$(aws ec2 describe-tags --filters \"Name=resource-id,Values=\$(ec2metadata --instance-id)\" \"Name=key,Values=Name\" --region=\$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | grep region | awk -F\\\\\" '{print \$4}') --output=text | cut -f5)\\\[\\\e[0m\\\] \\\u@\$(hostname -I|cut -d' ' -f1|tr -d ' ') \\\w]\\\n\$ \""
+      set ps1_prompt to " PS1=\"\\\n[\\\\\$(date +'%H:%M %Y%m%d') \\\[\\\033[m\\\]\\\[\\\e[0;32m\\\]\$(aws ec2 describe-tags --filters \"Name=resource-id,Values=\$(ec2metadata --instance-id)\" \"Name=key,Values=Name\" --region=\$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | grep region | awk -F\\\\\" '{print \$4}') --output=text | cut -f5)\\\[\\\e[0m\\\] \\\u@\$(hostname -I|cut -d' ' -f1|tr -d ' ') \\\w]\\\n\$ \""
       create window with profile "$iterm_profile_name"
       set theIp to item 1 of iplist
       tell first window
