@@ -98,4 +98,6 @@ if [ -x "$(command -v pyenv)" ]; then
   eval "$(pyenv init -)"
 fi
 
+export PATH=~/.local/bin:$PATH
+
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
