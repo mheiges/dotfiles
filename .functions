@@ -284,6 +284,9 @@ function cp_pre_clofficeui_hbo() {
 function cp_prod_cloffice_hbo() {
   aws_ip_list sysops-eu cp-prod-cloffice-
 }
+function cp_prod_cloffice_cbc() {
+  aws_ip_list sysops-us cp-prod-cloffice-
+}
 function cp_prod_clofficeui_hbo() {
   aws_ip_list sysops-eu cp-pre-clofficeui-
 }
@@ -356,4 +359,42 @@ function sshinteg() {
   sshtabs integ "$@"
 }
 
+# get Puppet Git branch used to make AMI for given IP address.
+# pg 10.240.40.79
+function pg() {
+  # Get AMI for IP addresss
+  ami=$(ssh $1 'curl -s http://169.254.169.254/latest/meta-data/ami-id')
+  # get bucket name having AMI id prefix
+  bkt=$(aws s3 --profile clearleap ls "s3://cl-aminator-golden-image-data/${ami}" | awk '{print $4}')
+  # dump bucket contents, the Git info is on first line
+  aws s3 --profile clearleap cp "s3://cl-aminator-golden-image-data/$bkt" - | head -n1
+}
 
+
+function ssh() {
+  GREEN='\033[32m'
+  RESET='\033[0m'
+  RAW_ARGS="$*"
+  PARSED_ARGS=()
+
+  until [ -z "$*" ]; do
+    arg=$1
+    # 10_2_40_1
+    if [[ $arg =~ [0-9]+_[0-9]+_[0-9]+_[0-9]+ ]]; then
+      arg=${arg//_/.}
+    # --10.91.61.116 (ansible inventory graph)
+    elif [[ $arg =~ --[0-9]+.[0-9]+.[0-9]+.[0-9]+ ]]; then
+      arg=${arg//--/}
+    # ip-10-98-15-131
+    elif [[ $arg =~ ip-[0-9]+-[0-9]+-[0-9]+-[0-9]+ ]]; then
+      arg=${arg/ip-/}
+      arg=${arg//-/.}
+    fi
+    PARSED_ARGS+=("$arg")
+    shift
+  done
+
+  echo -e "${GREEN}ssh ${PARSED_ARGS[@]}${RESET}"
+
+  /usr/bin/ssh "${PARSED_ARGS[@]}"
+}
