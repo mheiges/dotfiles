@@ -372,7 +372,7 @@ function pg() {
 
 
 function ssh() {
-  GREEN='\033[32m'
+  COLOR='\033[92m'
   RESET='\033[0m'
   RAW_ARGS="$*"
   PARSED_ARGS=()
@@ -394,7 +394,8 @@ function ssh() {
     shift
   done
 
-  echo -e "${GREEN}ssh ${PARSED_ARGS[@]}${RESET}"
+  echo 1>&2 -e "${COLOR}ssh ${PARSED_ARGS[@]}${RESET}"
+
 
   /usr/bin/ssh "${PARSED_ARGS[@]}"
 }
