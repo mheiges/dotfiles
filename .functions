@@ -121,7 +121,7 @@ function packerssh() {
 # match GNU's text mode output (vs. binary mode indicated with a '*' in
 # the second position)
 function md5sum() {
-  md5 -r "$@" | sed 's/ /  /'
+  /sbin/md5 -r "$@" | sed 's/ /  /'
 }; alias md5=md5sum
 
 # iTerm2 cd to selected dir (or parent dir if selected file).
