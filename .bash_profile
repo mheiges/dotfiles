@@ -18,7 +18,11 @@ if [[ `uname` =~ 'Darwin' ]]; then
   [[ -s "$HOME/.profile" ]] && source "$HOME/.profile"
   [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
   export PATH=/opt/packer:$PATH
-  export PATH=/opt/terraform:$PATH
+  if [[ -d $HOME/.tfenv/bin ]]; then
+    export PATH=$HOME/.tfenv/bin:$PATH
+  else
+    export PATH=/opt/terraform:$PATH
+  fi
   export PATH=/opt/local/bin:/opt/local/sbin:/Volumes/korlan/opt/local/bin:/Volumes/korlan/opt/local/sbin:$PATH
   export PATH=$PATH:'/Library/Application Support/VMware Fusion'
 
@@ -64,12 +68,6 @@ export HISTFILESIZE=20000
 export HISTSIZE=20000
 
 
-# don't include OrthoMCL.org, microbiome because on different code base
-export SHAREDCODESITES="AmoebaDB.org CryptoDB.org EuPathDB.org FungiDB.org GiardiaDB.org HostDB.org MicrosporidiaDB.org PiroplasmaDB.org PlasmoDB.org SchistoDB.net ToxoDB.org TrichDB.org TriTrypDB.org"
-export ALLSITES="AmoebaDB.org CryptoDB.org GiardiaDB.org EuPathDB.org FungiDB.org HostDB.org MicrobiomeDB.org MicrosporidiaDB.org OrthoMCL.org PiroplasmaDB.org PlasmoDB.org SchistoDB.net ToxoDB.org TrichDB.org TriTrypDB.org"
-export ALLPROJECTS="AmoebaDB CryptoDB GiardiaDB EuPathDB FungiDB HostDB MicrobiomeDB MicrosporidiaDB OrthoMCL PiroplasmaDB PlasmoDB SchistoDB ToxoDB TrichDB TriTrypDB"
-
-
 #if `shopt -p | grep -q direxpand`; then
 #  # http://stackoverflow.com/questions/6418493/bash-variable-expansion-on-tab-complete
 #  shopt -s direxpand
@@ -101,3 +99,12 @@ fi
 export PATH=~/.local/bin:$PATH
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
+#OktaAWSCLI
+if [[ -f "$HOME/.okta/bash_functions" ]]; then
+    . "$HOME/.okta/bash_functions"
+fi
+if [[ -d "$HOME/.okta/bin" && ":$PATH:" != *":$HOME/.okta/bin:"* ]]; then
+    PATH="$HOME/.okta/bin:$PATH"
+fi
+export PATH="/usr/local/sbin:$PATH"
