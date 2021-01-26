@@ -44,3 +44,5 @@ if [ -f /usr/local/Cellar/openvpn/2.4.6/sbin/openvpn ]; then
 fi
 
 export HISTTIMEFORMAT="%Y%m%d %T "
+
+export BASH_SILENCE_DEPRECATION_WARNING=1
