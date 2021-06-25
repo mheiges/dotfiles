@@ -108,3 +108,11 @@ if [[ -d "$HOME/.okta/bin" && ":$PATH:" != *":$HOME/.okta/bin:"* ]]; then
     PATH="$HOME/.okta/bin:$PATH"
 fi
 export PATH="/usr/local/sbin:$PATH"
+
+if [[ "$HOSTNAME" == "sb-6470a75c1" ]]; then
+  export NEW_RELIC_API_KEY="$(security find-generic-password -s newrelic-api-key -w)"
+  # https://github.com/terraform-aws-modules/terraform-aws-lambda#faq
+  export TF_RECREATE_MISSING_LAMBDA_PACKAGE=false
+fi
+
+export PATH="/usr/local/opt/node@12/bin:$PATH"
