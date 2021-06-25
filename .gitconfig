@@ -1,0 +1,12 @@
+[user]
+	email = mark.heiges@semanticbits.com
+	name = Mark Heiges
+[init]
+	templateDir = /Users/mark.heiges/.git-template
+[pull]
+	rebase = true
+[diff]
+	colorMoved = dimmed_zebra
+[alias]
+  default-branch = "!git symbolic-ref refs/remotes/origin/HEAD | cut -f4 -d/"
+  codef = "!git checkout $(git default-branch)"
