@@ -12,3 +12,13 @@
   codef = "!git checkout $(git default-branch)"
   edit-branch-description="!git branch --edit-description"
   describe-branch="!git config branch.$(git rev-parse --abbrev-ref HEAD).description"
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+	sta = status
+	stat = status
+[color]
+	ui = true
+[core]
+	excludesfile = /Users/mark.heiges/.gitignore

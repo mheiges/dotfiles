@@ -21,7 +21,6 @@ if [ -d $HOME/.rvm ]; then
 fi
 export PATH
 
-
 if [ -d /Applications/iRODS.app ]; then
   export PATH=/Applications/iRODS.app/Contents/PlugIns/irods/icommands:$PATH
   export DYLD_LIBRARY_PATH=/Applications/iRODS.app/Contents/Frameworks:$DYLD_LIBRARY_PATH
@@ -46,3 +45,18 @@ fi
 export HISTTIMEFORMAT="%Y%m%d %T "
 
 export BASH_SILENCE_DEPRECATION_WARNING=1
+
+#export NVM_DIR="$HOME/.nvm"
+#[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+
+if [[ -f /usr/local/bin/pyenv ]]; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init --path)"
+  eval "$(pyenv init -)"
+fi
+
+if [ -d $HOME/go ]; then
+  export PATH=$PATH:$HOME/go/bin
+fi
+. "$HOME/.cargo/env"

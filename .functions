@@ -399,3 +399,12 @@ function ssh() {
 
   /usr/bin/ssh "${PARSED_ARGS[@]}"
 }
+
+function tfplan() {
+  date
+  exec 3>&1 4>&2
+  t="$({ time terraform plan -lock=false -out=tfplan >/dev/null && terraform show tfplan 1>&3 2>&4; } 2>&1 )" ; \
+  echo "$t" && \
+  rm -f tfplan
+}
+

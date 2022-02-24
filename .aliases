@@ -2,6 +2,7 @@
 
 alias vssh='vagrant ssh'
 
+alias h=history
 alias dir='ls -Fl'
 alias m='more'
 alias l='locate'
@@ -28,3 +29,5 @@ alias a="w -h | awk '{print \$1 \" \"  \$5 \" \" \$8}' | egrep -v '[[:digit:]]+[
 
 # IBM/Clearleap
 alias cfd="bundle exec cf_deploy"
+
+alias acki="ack --ignore-ack-defaults"

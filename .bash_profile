@@ -49,9 +49,9 @@ if [[ `uname` =~ 'Darwin' ]]; then
 
 fi
 
-if command -v rbenv >/dev/null 2>&1; then
-  eval "$(rbenv init -)"
-fi
+#if command -v rbenv >/dev/null 2>&1; then
+#  eval "$(rbenv init -)"
+#fi
 
 export FIGNORE=.svn:.git
 export EDITOR=vim
@@ -84,12 +84,6 @@ export FTP_PASSIVE=1
 
 export SQLPATH=~/.oracle
 
-# rubyenv init
-# https://github.com/rbenv/rbenv
-if [ -x "$(command -v rbenv)" ]; then
-  eval "$(rbenv init -)"
-fi
-
 # pyenv init
 # https://github.com/pyenv/pyenv
 if [ -x "$(command -v pyenv)" ]; then
@@ -115,4 +109,7 @@ if [[ "$HOSTNAME" == "sb-6470a75c1" ]]; then
   export TF_RECREATE_MISSING_LAMBDA_PACKAGE=false
 fi
 
-export PATH="/usr/local/opt/node@12/bin:$PATH"
+#export PATH="/usr/local/opt/node@12/bin:$PATH"
+
+export PATH="$HOME/.poetry/bin:$PATH"
+. "$HOME/.cargo/env"
